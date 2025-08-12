@@ -1,0 +1,35 @@
+{
+  "template": {
+    "settings": {
+      "analysis": {
+        "analyzer": {
+          "name_standard_analyzer": {
+            "tokenizer": "standard",
+            "filter": ["lowercase", "asciifolding"]
+          },
+          "name_phonetic_analyzer": {
+            "tokenizer": "standard",
+            "filter": ["lowercase", "asciifolding", "my_phonetic"]
+          },
+          "name_ngram_analyzer": {
+            "tokenizer": "standard",
+            "filter": ["lowercase", "asciifolding", "name_ngram_filter"]
+          }
+        },
+        "filter": {
+          "my_phonetic": {
+            "type": "phonetic",
+            "encoder": "doublemetaphone",
+            "replace": false
+          },
+          "name_ngram_filter": {
+            "type": "ngram",
+            "min_gram": 2,
+            "max_gram": 15
+          }
+        }
+      }
+    }
+  },
+  "version": 1
+}

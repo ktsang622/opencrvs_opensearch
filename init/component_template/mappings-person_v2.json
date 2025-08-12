@@ -1,0 +1,69 @@
+{
+  "template": {
+    "mappings": {
+      "properties": {
+        "id": { "type": "keyword" },
+        "given_name": {
+          "type": "text",
+          "analyzer": "name_standard_analyzer",
+          "fields": {
+            "phonetic": { "type": "text", "analyzer": "name_phonetic_analyzer" },
+            "ngram": { "type": "text", "analyzer": "name_ngram_analyzer" },
+            "raw": { "type": "keyword" }
+          }
+        },
+        "family_name": {
+          "type": "text",
+          "analyzer": "name_standard_analyzer",
+          "fields": {
+            "phonetic": { "type": "text", "analyzer": "name_phonetic_analyzer" },
+            "ngram": { "type": "text", "analyzer": "name_ngram_analyzer" },
+            "raw": { "type": "keyword" }
+          }
+        },
+        "full_name": {
+          "type": "text",
+          "analyzer": "name_standard_analyzer",
+          "fields": {
+            "phonetic": { "type": "text", "analyzer": "name_phonetic_analyzer" },
+            "ngram": { "type": "text", "analyzer": "name_ngram_analyzer" },
+            "raw": { "type": "keyword" }
+          }
+        },
+        "gender": { "type": "keyword" },
+        "dob": { "type": "date" },
+        "death_date": { "type": "date" },
+        "place_of_birth": { "type": "text" },
+        "status": { "type": "keyword" },
+        "created_at": { "type": "date" },
+        "updated_at": { "type": "date" },
+        "age": { "type": "integer" },
+        "identifiers": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "keyword" },
+            "value": { "type": "keyword" },
+            "event": { "type": "keyword" }
+          }
+        },
+        "linked_persons": {
+          "type": "nested",
+          "properties": {
+            "role": { "type": "keyword" },
+            "person_id": { "type": "keyword" },
+            "full_name": {
+              "type": "text",
+              "analyzer": "name_standard_analyzer",
+              "fields": {
+                "phonetic": { "type": "text", "analyzer": "name_phonetic_analyzer" },
+                "ngram": { "type": "text", "analyzer": "name_ngram_analyzer" },
+                "raw": { "type": "keyword" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version": 2
+}

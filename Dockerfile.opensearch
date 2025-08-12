@@ -1,0 +1,6 @@
+FROM opensearchproject/opensearch:3.0.0
+
+RUN /usr/share/opensearch/bin/opensearch-plugin install --batch analysis-icu
+RUN /usr/share/opensearch/bin/opensearch-plugin install --batch analysis-phonetic
+
+COPY log4j2.properties /usr/share/opensearch/config/

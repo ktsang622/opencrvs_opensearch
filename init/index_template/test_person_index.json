@@ -1,0 +1,122 @@
+{
+  "index_patterns": ["test_person_index"],
+  "template": {
+    "settings": {
+      "index": {
+        "max_ngram_diff": 14,
+        "analysis": {
+          "filter": {
+            "my_phonetic": {
+              "type": "phonetic",
+              "encoder": "double_metaphone",
+              "replace": false
+            },
+            "name_ngram_filter": {
+              "type": "ngram",
+              "min_gram": 1,
+              "max_gram": 15
+            }
+          },
+          "analyzer": {
+            "name_standard_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase", "asciifolding"]
+            },
+            "name_phonetic_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase", "asciifolding", "my_phonetic"]
+            },
+            "name_ngram_analyzer": {
+              "tokenizer": "standard",
+              "filter": ["lowercase", "asciifolding", "name_ngram_filter"]
+            }
+          }
+        }
+      }
+    },
+    "mappings": {
+      "properties": {
+        "id": { "type": "keyword" },
+        "full_name": {
+          "type": "text",
+          "analyzer": "name_standard_analyzer",
+          "fields": {
+            "phonetic": {
+              "type": "text",
+              "analyzer": "name_phonetic_analyzer"
+            },
+            "ngram": {
+              "type": "text",
+              "analyzer": "name_ngram_analyzer",
+              "search_analyzer": "standard"
+            },
+            "keyword": {
+              "type": "keyword"
+            }
+          }
+        },
+	"given_name": {
+  	  "type": "text",
+  	  "fields": {
+    	  "keyword": { "type": "keyword", "ignore_above": 256 },
+    	  "phonetic": { "type": "text", "analyzer": "name_phonetic_analyzer" }
+	  }
+	},
+	"family_name": {
+ 	   "type": "text",
+ 	   "fields": {
+   	   "keyword": { "type": "keyword", "ignore_above": 256 },
+   	   "phonetic": { "type": "text", "analyzer": "name_phonetic_analyzer" }
+	  }
+	},
+	"dob": { "type": "date" },
+        "death_date": { "type": "date" },
+        "gender": { "type": "keyword" },
+        "place_of_birth": { "type": "text" },
+        "status": { "type": "keyword" },
+        "age": { "type": "integer" },
+        "created_at": { "type": "date" },
+        "updated_at": { "type": "date" },
+        "identifiers": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "keyword" },
+            "value": { "type": "keyword" },
+            "event": { "type": "keyword" }
+          }
+        },
+        "linked_persons": {
+          "type": "nested",
+          "properties": {
+            "role": { "type": "keyword" },
+            "full_name": {
+              "type": "text",
+              "analyzer": "name_standard_analyzer",
+              "fields": {
+                "phonetic": {
+                  "type": "text",
+                  "analyzer": "name_phonetic_analyzer"
+                },
+                "ngram": {
+                  "type": "text",
+                  "analyzer": "name_ngram_analyzer",
+                  "search_analyzer": "standard"
+                },
+                "keyword": {
+                  "type": "keyword"
+                }
+              }
+            },
+            "person_id": { "type": "keyword" }
+          }
+        }
+      }
+    }
+  },
+  "composed_of": [],
+  "priority": 500,
+  "version": 2,
+  "_meta": {
+    "description": "Template for test_person_index with linked_persons and analyzers"
+  }
+}
