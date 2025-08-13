@@ -8,8 +8,9 @@
     "build:prod": "source .env.prod && docker build -f Dockerfile.opensearch -t opencrvs-toppan-opensearch:v$VERSION . && docker build -f Dockerfile.seeder -t opencrvs-toppan-seeder:v$VERSION .",
     "start": "docker compose -p opencrvs -f docker-compose.prod.yml --env-file .env.prod up -d",
     "seed:dev": "docker compose -p opencrvs --env-file .env.local -f docker-compose.opensearch.yml run --rm toppan-data-seeder",
-    "seed:prod": "docker compose -p opencrvs -f docker-compose.prod.yml --env-file .env.prod run --rm --no-deps toppan-data-seeder",
-    "stop": "docker compose -p opencrvs down",
+    "seed:prod": "docker compose -p opencrvs -f docker-compose.prod.yml --env-file .env.prod --profile seeder run --rm --no-deps toppan-data-seeder",
+    "stop:dev": "docker compose -p opencrvs --env-file .env.local down",
+    "stop:prod": "docker compose -p opencrvs -f docker-compose.prod.yml --env-file .env.prod down opensearch opensearch-dashboards postgres pg_adminer",
     "logs": "docker compose -p opencrvs logs -f"
   }
 }

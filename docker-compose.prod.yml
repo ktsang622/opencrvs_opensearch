@@ -32,19 +32,20 @@ services:
 
   toppan-data-seeder:
     image: opencrvs-toppan-seeder:v${VERSION}
+    profiles: ["seeder"]
     depends_on:
       - opensearch
     volumes:
       - ./init/opensearch:/init
     command: ["bash", "/init/toppan-data-seeder.sh"]
 
-  person_registry_pg:
+  postgres:
     image: postgres:15
     container_name: opencrvs-toppan-postgres
     environment:
       POSTGRES_DB: person_registry
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: registry_user
+      POSTGRES_PASSWORD: registry_pass
     volumes:
       - person_registry_pgdata:/var/lib/postgresql/data
       - ./init/pgsql:/docker-entrypoint-initdb.d
