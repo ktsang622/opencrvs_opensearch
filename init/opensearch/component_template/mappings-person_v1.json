@@ -1,0 +1,61 @@
+{
+  "template": {
+    "mappings": {
+      "properties": {
+        "full_name": {
+          "type": "text",
+          "analyzer": "name_standard_analyzer",
+          "fields": {
+            "phonetic": {
+              "type": "text",
+              "analyzer": "name_phonetic_analyzer"
+            },
+            "ngram": {
+              "type": "text",
+              "analyzer": "name_ngram_analyzer"
+            }
+          }
+        },
+        "gender": {
+          "type": "keyword"
+        },
+        "dob": {
+          "type": "date"
+        },
+        "place_of_birth": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "identifiers": {
+          "type": "nested",
+          "properties": {
+            "type": { "type": "keyword" },
+            "value": { "type": "keyword" }
+          }
+        },
+        "linked_persons": {
+          "type": "nested",
+          "properties": {
+            "role": { "type": "keyword" },
+            "person_id": { "type": "keyword" },
+            "full_name": {
+              "type": "text",
+              "analyzer": "name_standard_analyzer",
+              "fields": {
+                "phonetic": {
+                  "type": "text",
+                  "analyzer": "name_phonetic_analyzer"
+                },
+                "ngram": {
+                  "type": "text",
+                  "analyzer": "name_ngram_analyzer"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "version": 1
+}

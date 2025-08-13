@@ -1,0 +1,46 @@
+services:
+  opensearch:
+    build:
+      context: .
+      dockerfile: Dockerfile.opensearch
+    container_name: opencrvs-toppan-opensearch
+    environment:
+      - discovery.type=single-node
+      - plugins.security.disabled=true
+      - DISABLE_INSTALL_DEMO_CONFIG=true
+      - bootstrap.memory_lock=true
+      - OPENSEARCH_JAVA_OPTS=-Xms1g -Xmx1g
+      - OPENSEARCH_INITIAL_ADMIN_PASSWORD=WelcomeDemo1.23@
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - opensearch_data:/usr/share/opensearch/data
+    ports:
+      - '19200:9200'
+      - '19600:9600'
+
+  opensearch-dashboards:
+    image: opensearchproject/opensearch-dashboards:3.0.0
+    container_name: opencrvs-toppan-dashboards
+    environment:
+      OPENSEARCH_HOSTS: 'http://opensearch:9200'
+      DISABLE_SECURITY_DASHBOARDS_PLUGIN: 'true'
+    depends_on:
+      - opensearch
+    ports:
+      - '5601:5601'
+
+  toppan-data-seeder:
+    build:
+      context: .
+      dockerfile: Dockerfile.seeder
+    depends_on:
+      - opensearch
+    volumes:
+      - ./init/opensearch:/init
+    command: ["bash", "/init/toppan-data-seeder.sh"]
+
+volumes:
+  opensearch_data:

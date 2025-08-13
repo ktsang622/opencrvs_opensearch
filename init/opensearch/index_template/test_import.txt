@@ -1,0 +1,4 @@
+curl -X POST "http://localhost:9200/test_person_special/_bulk" \
+  -H "Content-Type: application/x-ndjson" \
+  -u "admin:WelcomeDemo1.23@" \
+  --data-binary "@data_test_person_special_all.json"

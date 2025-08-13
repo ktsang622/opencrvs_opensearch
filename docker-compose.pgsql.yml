@@ -1,0 +1,22 @@
+services:
+  person_registry_pg:
+    image: postgres:15
+    container_name: opencrvs-toppan-postgres
+    environment:
+      POSTGRES_DB: person_registry
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - person_registry_pgdata:/var/lib/postgresql/data
+      - ./init/pgsql:/docker-entrypoint-initdb.d
+    ports:
+      - '5432:5432'
+
+  pg_adminer:
+    image: adminer
+    container_name: opencrvs-toppan-adminer
+    ports:
+      - '15432:8080'
+
+volumes:
+  person_registry_pgdata:

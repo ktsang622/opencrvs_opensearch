@@ -1,0 +1,15 @@
+{
+  "name": "opencrvs-toppan",
+  "scripts": {
+    "dev": "docker compose -p opencrvs --env-file .env.local up -d",
+    "dev:opensearch": "docker compose -p opencrvs --env-file .env.local -f docker-compose.opensearch.yml up -d",
+    "dev:pgsql": "docker compose -p opencrvs --env-file .env.local -f docker-compose.pgsql.yml up -d",
+    "build:dev": "docker compose -p opencrvs --env-file .env.local build",
+    "build:prod": "source .env.prod && docker build -f Dockerfile.opensearch -t opencrvs-toppan-opensearch:v$VERSION . && docker build -f Dockerfile.seeder -t opencrvs-toppan-seeder:v$VERSION .",
+    "start": "docker compose -p opencrvs -f docker-compose.prod.yml --env-file .env.prod up -d",
+    "seed:dev": "docker compose -p opencrvs --env-file .env.local -f docker-compose.opensearch.yml run --rm toppan-data-seeder",
+    "seed:prod": "docker compose -p opencrvs -f docker-compose.prod.yml --env-file .env.prod run --rm --no-deps toppan-data-seeder",
+    "stop": "docker compose -p opencrvs down",
+    "logs": "docker compose -p opencrvs logs -f"
+  }
+}
