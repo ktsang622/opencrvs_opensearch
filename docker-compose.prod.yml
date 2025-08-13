@@ -1,6 +1,6 @@
 services:
   opensearch:
-    image: opencrvs-toppan-opensearch:v${VERSION}
+    image: opencrvs-toppan-opensearch:v${TOPPAN_VERSION}
     container_name: opencrvs-toppan-opensearch
     environment:
       - discovery.type=single-node
@@ -31,7 +31,7 @@ services:
       - '5601:5601'
 
   toppan-data-seeder:
-    image: opencrvs-toppan-seeder:v${VERSION}
+    image: opencrvs-toppan-seeder:v${TOPPAN_VERSION}
     profiles: ["seeder"]
     depends_on:
       - opensearch
